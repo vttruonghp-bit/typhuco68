@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cờ Tỷ Phú Online</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/overrides.css">
+</head>
+<body>
+<main id="app">
+  <section id="lobby" class="phone-shell lobby-phone">
+    <div class="speaker"></div>
+    <header class="phone-head">
+      <b>CỜ TỶ PHÚ</b>
+      <span id="lobbyHint">Tạo ván mới</span>
+    </header>
+    <section class="hero-card">
+      <span class="halo-icon">★</span>
+      <div>
+        <h1>Tạo ván mới</h1>
+        <p>Chọn số người, đặt tên, màu và kí hiệu.</p>
+      </div>
+    </section>
+    <section class="setup-block">
+      <h3>CHỌN SỐ NGƯỜI</h3>
+      <div id="limitPills" class="limit-pills"></div>
+      <input id="limit" type="hidden" value="6">
+    </section>
+    <section class="setup-block">
+      <div class="block-head">
+        <h3 id="playerCountLabel">6 NGƯỜI CHƠI</h3>
+        <small>Tên · 1 trong 8 màu · 1 kí hiệu</small>
+      </div>
+      <div id="setupCards" class="setup-cards"></div>
+    </section>
+    <section class="soft-note">
+      <b>Tất cả màu phải khác nhau trong cùng một ván.</b>
+      <span>Số người thay đổi sẽ tự thu gọn hoặc mở thêm thẻ người chơi.</span>
+    </section>
+    <div class="lobby-actions">
+      <label class="join-code">Mã phòng<input id="code" maxlength="5" placeholder="ABCDE"></label>
+      <button id="join" class="secondary">Vào phòng</button>
+      <button id="create" class="primary">Bắt đầu ván 6 người</button>
+    </div>
+    <p id="notice" class="notice"></p>
+  </section>
+
+  <section id="game" hidden>
+    <section class="game-layout">
+      <section class="phone-shell game-phone">
+        <div class="speaker"></div>
+        <header class="phone-head">
+          <div><b>CỜ TỶ PHÚ</b><span id="room"></span></div>
+          <strong id="turn"></strong>
+        </header>
+
+        <section id="setup" class="setup-strip" hidden>
+          <input id="setupName" maxlength="18" hidden>
+          <div id="setupColors" hidden></div>
+          <div id="setupIcons" hidden></div>
+          <button id="saveSetup" hidden>Lưu lựa chọn</button>
+          <button id="start" class="primary">Bắt đầu ván</button>
+        </section>
+
+        <div class="game-topline">
+          <h2>BÀN CỜ</h2>
+          <span id="onlineCount">Online</span>
+        </div>
+        <h3 class="waiting-title">NGƯỜI CHỜ LƯỢT</h3>
+        <aside id="players" class="players"></aside>
+
+        <section class="board-wrap">
+          <div id="board" class="board"></div>
+          <section class="center">
+            <div id="activeInfo" class="active-info"></div>
+            <div class="center-location">
+              <small>Ô ĐANG ĐỨNG</small>
+              <h2 id="cellName">Chờ bắt đầu</h2>
+              <div id="ownerName" class="owner-name"></div>
+            </div>
+            <div class="center-details">
+              <div><small id="levelLabel">CẤP NHÀ</small><b id="levelInfo">-</b></div>
+              <div class="rent"><small id="rentLabel">TIỀN THUÊ</small><b id="rentInfo">-</b></div>
+            </div>
+            <div id="dice" class="dice">⚂ ⚄</div>
+            <p id="status"></p>
+            <div id="actions" class="actions"></div>
+          </section>
+        </section>
+
+        <section class="history-panel">
+          <div class="history-head">
+            <h3>LỊCH SỬ GIAO DỊCH</h3>
+            <small>20 gần nhất · toàn bàn</small>
+          </div>
+          <p>Chỉ ghi hiệu ứng do người thực hiện lượt tạo ra.</p>
+          <div id="history" class="history-list"></div>
+        </section>
+
+        <div class="bottom-actions">
+          <button id="surrender" class="danger">⚠ ĐẦU HÀNG</button>
+          <button id="openToken" class="purple">ĐEN VL</button>
+        </div>
+      </section>
+    </section>
+  </section>
+
+  <section id="assetModal" class="modal" hidden>
+    <div class="phone-shell modal-phone">
+      <div class="speaker"></div>
+      <header class="phone-head"><b>CỜ TỶ PHÚ</b><span id="assetTurn">Lượt Linh · 480Đ</span></header>
+      <section class="modal-hero">
+        <span class="halo-icon">🏠</span>
+        <div><h2 id="assetTitle">Ụp / Mở</h2><p id="assetSub">Chọn tài sản để hạ cấp, ụp, mở hoặc bán.</p></div>
+      </section>
+      <div id="debtBox" class="debt-box" hidden></div>
+      <div class="cash-summary">
+        <div><small>TIỀN HIỆN CÓ</small><b id="cashBefore">0Đ</b></div>
+        <div><small>SAU THAO TÁC</small><b id="cashAfter">0Đ</b></div>
+      </div>
+      <div id="assetList" class="asset-list"></div>
+      <div class="modal-actions">
+        <button class="secondary" data-close="assetModal">Ụp lại</button>
+        <button class="primary" data-close="assetModal">Xác nhận thay đổi</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="tokenModal" class="modal" hidden>
+    <div class="phone-shell modal-phone">
+      <div class="speaker"></div>
+      <header class="phone-head"><b>CỜ TỶ PHÚ</b><span>ĐEN VL</span></header>
+      <section class="modal-hero">
+        <span class="halo-icon">★</span>
+        <div><h2>Chọn màu và biểu tượng</h2><p>Một dòng chọn màu, bên dưới là biểu tượng đổi theo màu.</p></div>
+      </section>
+      <div class="color-row" id="tokenColors"></div>
+      <div id="tokenIcons" class="token-icons"></div>
+      <div class="token-preview" id="tokenPreview"></div>
+      <div class="modal-actions">
+        <button data-close="tokenModal" class="secondary">Chung thủy</button>
+        <button id="confirmToken" class="purple">Ném mẹ <span id="oldIcon"></span> con này đi</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="selectModal" class="modal" hidden>
+    <div class="phone-shell modal-phone">
+      <div class="speaker"></div>
+      <header class="phone-head"><b>CỜ TỶ PHÚ</b><span id="selectTurn">Lượt Linh · 480Đ</span></header>
+      <section class="modal-hero">
+        <span class="halo-icon" id="selectIcon">🚆</span>
+        <div><h2 id="selectTitle">Metro · ô 10</h2><p id="selectSub">Chọn ô đích trong đủ 40 ô.</p></div>
+      </section>
+      <div id="selectGrid" class="select-grid"></div>
+      <section id="selectPreview" class="preview-box">Chọn một ô để xem trước.</section>
+      <div class="modal-actions select-actions">
+        <button id="stayMetro" class="secondary">Ở lại ô 10</button>
+        <button id="confirmSelect" class="primary">Xác nhận</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/app.js"></script>
+</body>
+</html>
