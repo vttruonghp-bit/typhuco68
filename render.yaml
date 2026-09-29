@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: co-ty-phu-online
-    runtime: node
-    buildCommand: npm ci
-    startCommand: npm start
-    healthCheckPath: /health
-    autoDeploy: true
